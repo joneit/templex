@@ -1,6 +1,6 @@
 {
   "name": "templex",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "main": "./src/js/templar.js",
   "description": "Lightweight but flexible formatting function.",
   "repository": {
