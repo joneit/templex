@@ -1,3 +1,6 @@
+// templex node module
+// https://github.com/joneit/templex
+
 (function (module) { // This closure supports NodeJS-less client side includes with <script> tags. See https://github.com/joneit/mnm.
 
     /**
