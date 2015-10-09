@@ -1,0 +1,24 @@
+{
+  "name": "templex",
+  "version": "0.1.0",
+  "main": "./src/js/templar.js",
+  "description": "Lightweight but flexible formatting function.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joneit/templex.git"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "author": "Jonathan Eiten <jonathan.eiten@mojotouch.com> (http://mojotouch.com)",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-mocha": "^2.1.3",
+    "jsdoc": "^3.3.2",
+    "run-sequence": "^1.1.4",
+    "should": "^7.1.0"
+  }
+}

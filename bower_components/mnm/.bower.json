@@ -1,0 +1,30 @@
+{
+  "name": "mnm",
+  "authors": [
+    "JEiten <jonathan.eiten@mojotouch.com>"
+  ],
+  "description": "Include modified node modules on the client side.",
+  "moduleType": [
+    "globals"
+  ],
+  "main": "src/js/mnm.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/joneit/mnm",
+  "_release": "e24b813bcc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e24b813bcc31708a757f26bc782cc415f8669e27"
+  },
+  "_source": "git://github.com/joneit/mnm.git",
+  "_target": "*",
+  "_originalSource": "mnm",
+  "_direct": true
+}
