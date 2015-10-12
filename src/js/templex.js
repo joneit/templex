@@ -3,9 +3,9 @@
 
 /* eslint-env node, browser */ //to allow refs to `window` in IIFE's call's actual params
 
-(function (module) { // eslint-disable-line no-unused-expressions, strict
+(function (module, exports) { // eslint-disable-line no-unused-expressions, no-unused-vars
 
-    // This closure supports NodeJS-less client side includes with <script> tags. See https://github.com/joneit/mnm.
+    // This closure supports NodeJS-less client side includes with <script> tags. See notes at bottom of this file.
 
     /**
      * Merges values of execution context properties named in template by {prop1},
@@ -78,21 +78,26 @@
 );
 
 /* About the above IIFE:
- * This file is a "modified node module." It functions as usual in node; but also functions directly in the browser.
- * The IIFE is superfluous for NodeJs but needed for the browser to maintain privacy for internal declarations.
- * In the browser, you can predefine a `window.module` object and the results will be in `module.exports`.
- * Alternatively, the logic in the actual params will define a `window.templex` object that works correctly regardless
- * of which NodeJs-style export mechanism is used (`module.exports.property = property` vs. `module.exports = api`).
+ * This file is a "modified node module." It functions as usual in Node.js *and* is also usable directly in the browser.
+ * 1. Node.js: The IIFE is superfluous but innocuous.
+ * 2. In the browser: The IIFE closure serves to keep internal declarations private.
+ * 2.a. In the browser as a global: The logic in the actual parameter expressions + the post-invocation expression
+ * will put your API in `window.templex`.
+ * 2.b. In the browser as a module: If you predefine a `window.module` object, the results will be in `module.exports`.
+ * The bower component `mnm` makes this easy and also provides a global `require()` function for referencing your module
+ * from other closures. In either case, this works with both NodeJs-style export mechanisms -- a single API assignment,
+ * `module.exports = yourAPI` *or* a series of individual property assignments, `module.exports.property = property`.
  *
- * About the IIFE's actual params:
+ * Before the IIFE runs, the actual parameter expressions are executed:
  * 1. If `window` object undefined, we're in NodeJs so assume there is a `module` object with an `exports` property
  * 2. If `window` object defined, we're in browser
  * 2.a. If `module` object predefined, use it
  * 2.b. If `module` object undefined, create a `templex` object
  *
  * After the IIFE returns:
+ * Because it always returns undefined, the expression after the || will execute:
  * 1. If `window` object undefined, then we're in NodeJs so we're done
  * 2. If `window` object defined, then we're in browser
  * 2.a. If `module` object predefined, we're done; results are in `moudule.exports`
- * 2.b. If `module` object undefined, redefine`templex` to point to the `templex.exports` object
+ * 2.b. If `module` object undefined, redefine`templex` to be the `templex.exports` object
  */
