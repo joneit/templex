@@ -73,7 +73,7 @@
 })(
     typeof window === 'undefined' ? module : window.module || (window.templex = {}),
     typeof window === 'undefined' ? module.exports : window.module && window.module.exports || (window.templex.exports = {})
-) && (
+) || (
     typeof window === 'undefined' || window.module || (window.templex = window.templex.exports)
 );
 

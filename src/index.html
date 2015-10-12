@@ -6,9 +6,7 @@
             width: 50%;
         }
     </style>
-    <script src="../bower_components/mnm/src/js/mnm.js"></script>
     <script src="js/templex.js"></script>
-    <script> module.cache('templex'); </script>
     <script>
         'use strict';
 
@@ -23,7 +21,6 @@
 
         window.onload = function () {
             var globalObject = typeof global !== 'undefined' ? global : window;
-            var templex = require('templex');
             var buttons = document.querySelectorAll('input[type=button]');
             var privateContext = [{ r: 223, b: 62 }, { ab: 1700, c: 'end' }];
 
