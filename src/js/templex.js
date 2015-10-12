@@ -18,10 +18,7 @@
      *
      * If you prefer something other than braces, redefine `templex.regexp`.
      *
-     * See tests for additional examples.
-     * @example templex.call({r:192,g:150,b:81}, "background-color: #{(r+256).toString(16).substr(1)}{(r+256).toString(16).substr(1)}{(r+256).toString(16).substr(1)}");
-     * @example templex.call({r:192,g:150,b:81,hex2:function(n){return (n+256).toString(16).substr(1)}}, "background-color: #{hex2(r)}{hex2(g)}{hex2(b)}");
-     * @example helpers = {hex2:function(n){return (n+256).toString(16).substr(1)}}; templex.call([{r:192,g:150,b:81}, helpers], "background-color: #{(hex2(r)}{(hex2(g)}{(hex2(b)}");
+     * See tests for examples.
      *
      * @param {string} template
      * @param {...string} [args]
@@ -58,11 +55,7 @@
         var replacement;
 
         try {
-            if (isNaN(key)) {
-                replacement = templex.deref.call(this, key);
-            } else {
-                replacement = this[0][key];
-            }
+            replacement = isNaN(key) ? templex.deref.call(this, key) : this[0][key];
         } catch (e) {
             replacement = '{' + key + '}';
         }

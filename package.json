@@ -1,6 +1,6 @@
 {
   "name": "templex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./src/js/templex.js",
   "description": "Lightweight but flexible formatting function.",
   "repository": {
