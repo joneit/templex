@@ -73,4 +73,7 @@
     // this interface consists solely of the templex function object
     module.exports = templex;
 
-})(module, module.exports);
+})(
+    window.module || (window.templex = {}),
+    window.module && window.module.exports || (window.templex.exports = {})
+) && (window.module || (window.templex = window.templex.exports));
