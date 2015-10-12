@@ -1,7 +1,11 @@
 // templex node module
 // https://github.com/joneit/templex
 
-(function (module) { // This closure supports NodeJS-less client side includes with <script> tags. See https://github.com/joneit/mnm.
+/* eslint-env node, browser */ //to allow refs to `window` in IIFE's call's actual params
+
+(function (module) { // eslint-disable-line no-unused-expressions, strict
+
+    // This closure supports NodeJS-less client side includes with <script> tags. See https://github.com/joneit/mnm.
 
     /**
      * Merges values of execution context properties named in template by {prop1},
@@ -45,7 +49,7 @@
                 code = templex.with(i, code);
             }
 
-            templex.cache[this.length] = eval('(function(expr){' + code + '})');
+            templex.cache[this.length] = eval('(function(expr){' + code + '})'); // eslint-disable-line no-eval
         }
         return templex.cache[this.length].call(this, key);
     };
@@ -67,6 +71,28 @@
     module.exports = templex;
 
 })(
-    window.module || (window.templex = {}),
-    window.module && window.module.exports || (window.templex.exports = {})
-) && (window.module || (window.templex = window.templex.exports));
+    typeof window === 'undefined' ? module : window.module || (window.templex = {}),
+    typeof window === 'undefined' ? module.exports : window.module && window.module.exports || (window.templex.exports = {})
+) && (
+    typeof window === 'undefined' || window.module || (window.templex = window.templex.exports)
+);
+
+/* About the above IIFE:
+ * This file is a "modified node module." It functions as usual in node; but also functions directly in the browser.
+ * The IIFE is superfluous for NodeJs but needed for the browser to maintain privacy for internal declarations.
+ * In the browser, you can predefine a `window.module` object and the results will be in `module.exports`.
+ * Alternatively, the logic in the actual params will define a `window.templex` object that works correctly regardless
+ * of which NodeJs-style export mechanism is used (`module.exports.property = property` vs. `module.exports = api`).
+ *
+ * About the IIFE's actual params:
+ * 1. If `window` object undefined, we're in NodeJs so assume there is a `module` object with an `exports` property
+ * 2. If `window` object defined, we're in browser
+ * 2.a. If `module` object predefined, use it
+ * 2.b. If `module` object undefined, create a `templex` object
+ *
+ * After the IIFE returns:
+ * 1. If `window` object undefined, then we're in NodeJs so we're done
+ * 2. If `window` object defined, then we're in browser
+ * 2.a. If `module` object predefined, we're done; results are in `moudule.exports`
+ * 2.b. If `module` object undefined, redefine`templex` to point to the `templex.exports` object
+ */

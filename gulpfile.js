@@ -49,7 +49,7 @@ function lint() {
 
 function test(cb) {
     return gulp.src(testDir + 'index.js')
-        .pipe($$.mocha({reporter: 'spec'}));
+        .pipe(mocha({reporter: 'spec'}));
 }
 
 function doc(cb) {
