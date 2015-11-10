@@ -1,18 +1,17 @@
 'use strict';
 
 var gulp        = require('gulp'),
-    runSequence = require('run-sequence'),
-    eslint      = require('gulp-eslint'),
-    gitignore   = require('gulp-exclude-gitignore'),
-    mocha       = require('gulp-mocha'),
+    $$   = require('gulp-load-plugins')();
+
+var runSequence = require('run-sequence'),
     exec        = require('child_process').exec,
     path        = require('path');
-
 
 var srcDir  = './src/',
     testDir = './test/',
     jsDir   = srcDir + 'js/',
-    jsFiles = '**/*.js';
+    jsFiles = '**/*.js',
+    destDir = './';;
 
 var js = {
     dir   : jsDir,
@@ -24,10 +23,11 @@ var js = {
 gulp.task('lint', lint);
 gulp.task('test', test);
 gulp.task('doc', doc);
+gulp.task('rootify', rootify);
 
 gulp.task('build', function(callback) {
     clearBashScreen();
-    runSequence('lint', 'test', 'doc',
+    runSequence('lint', 'test', 'doc', 'rootify',
         callback);
 });
 
@@ -41,15 +41,15 @@ gulp.task('default', ['build', 'watch']);
 
 function lint() {
     return gulp.src(js.files)
-        .pipe(gitignore())
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+        .pipe($$.excludeGitignore())
+        .pipe($$.eslint())
+        .pipe($$.eslint.format())
+        .pipe($$.eslint.failAfterError());
 }
 
 function test(cb) {
     return gulp.src(testDir + 'index.js')
-        .pipe(mocha({reporter: 'spec'}));
+        .pipe($$.mocha({reporter: 'spec'}));
 }
 
 function doc(cb) {
@@ -58,6 +58,12 @@ function doc(cb) {
         console.log(stderr);
         cb(err);
     });
+}
+
+function rootify() {
+    return gulp.src(js.dir + 'templex.js')
+        .pipe($$.rename('index.js'))
+        .pipe(gulp.dest(destDir));
 }
 
 function clearBashScreen() {
