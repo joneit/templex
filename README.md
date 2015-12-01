@@ -7,13 +7,18 @@ Lightweight but flexible formatting function.
 
 Detailed API docs can be found [here](http://joneit.github.io/templex/index.html).
 
+### Demo
+
 A demo can be found [here](http://joneit.github.io/templex/demo.html).
+
+### CDN versions
 
 To use in a browser, you have two options:
 
 1. Incorporate the node module into your own browserified project.
 2. Use the browserified versions [`templex.js`](http://joneit.github.io/templex/templex.js) or [`templex.min.js`](http://joneit.github.io/templex/templex.min.js) available on the Github pages CDN.
 
-\[See the note [Regarding submodules](https://github.com/openfin/rectangular#regarding-submodules)
-for important information on cloning this repo or re-purposing its build template.\]
+### Submodules
+See the note [Regarding submodules](https://github.com/openfin/rectangular#regarding-submodules)
+for important information on cloning this repo or re-purposing its build template.
 
