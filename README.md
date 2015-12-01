@@ -5,7 +5,7 @@ Lightweight but flexible formatting function.
 
 ### API documentation
 
-Detailed API docs can be found [here](http://joneit.github.io/templex/index.html).
+Detailed API docs can be found [here](http://joneit.github.io/templex/global.html).
 
 ### Demo
 
