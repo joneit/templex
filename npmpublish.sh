@@ -2,7 +2,7 @@
 
 cd src
 
-rm npm-debug.log
+rm npm-debug.log > /dev/null
 
 cp ../README.md .
 cp ../package.json .
