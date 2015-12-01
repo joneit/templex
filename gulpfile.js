@@ -1,46 +1,53 @@
 'use strict';
 
-var gulp        = require('gulp'),
+var gulp = require('gulp'),
     $$   = require('gulp-load-plugins')();
 
 var runSequence = require('run-sequence'),
+    browserSync = require('browser-sync').create(),
     exec        = require('child_process').exec,
     path        = require('path');
 
-var srcDir  = './src/',
-    testDir = './test/',
-    jsDir   = srcDir + 'js/',
-    jsFiles = '**/*.js',
-    destDir = './';;
-
-var js = {
-    dir   : jsDir,
-    files : jsDir + jsFiles
-};
+var name     = 'templex',
+    srcDir   = './src/',
+    testDir  = './test/',
+    buildDir = './build';
 
 //  //  //  //  //  //  //  //  //  //  //  //
 
 gulp.task('lint', lint);
 gulp.task('test', test);
 gulp.task('doc', doc);
-gulp.task('rootify', rootify);
+gulp.task('browserify', function(callback) {
+    browserify();
+    browserifyMin();
+    callback();
+});
 
 gulp.task('build', function(callback) {
     clearBashScreen();
-    runSequence('lint', 'test', 'doc', 'rootify',
-        callback);
+    runSequence(
+        'lint',
+        'test',
+        'doc',
+        'browserify',
+        callback
+    );
 });
 
 gulp.task('watch', function () {
-    gulp.watch([srcDir + '**', testDir + '**'], ['build']);
+    gulp.watch([srcDir + 'index.js', testDir + 'index.js', buildDir + 'demo.html'], ['build'])
+        .on('change', function(event) {
+            browserSync.reload();
+        });
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch'], browserSyncLaunchServer);
 
 //  //  //  //  //  //  //  //  //  //  //  //
 
 function lint() {
-    return gulp.src(js.files)
+    return gulp.src(srcDir + 'index.js')
         .pipe($$.excludeGitignore())
         .pipe($$.eslint())
         .pipe($$.eslint.format())
@@ -52,6 +59,29 @@ function test(cb) {
         .pipe($$.mocha({reporter: 'spec'}));
 }
 
+function browserify() {
+    return gulp.src(srcDir + 'browserify_root.js')
+        .pipe($$.browserify({
+            //insertGlobals : true,
+            debug : true
+        }))
+        //.pipe($$.sourcemaps.init({loadMaps: true}))
+        // Add transformation tasks to the pipeline here:
+
+        .on('error', $$.util.log)
+
+        .pipe($$.rename(name + '.js'))
+        .pipe(gulp.dest(buildDir)); // outputs to ./build/rectangular.js for githup.io publish
+}
+
+function browserifyMin() {
+    return gulp.src(srcDir + 'browserify_root.js')
+        .pipe($$.browserify())
+        .pipe($$.uglify())
+        .pipe($$.rename(name + '.min.js'))
+        .pipe(gulp.dest(buildDir)); // outputs to ./build/rectangular.min.js for githup.io publish
+}
+
 function doc(cb) {
     exec(path.resolve('jsdoc.sh'), function (err, stdout, stderr) {
         console.log(stdout);
@@ -60,10 +90,15 @@ function doc(cb) {
     });
 }
 
-function rootify() {
-    return gulp.src(js.dir + 'templex.js')
-        .pipe($$.rename('index.js'))
-        .pipe(gulp.dest(destDir));
+function browserSyncLaunchServer() {
+    browserSync.init({
+        server: {
+            // Serve up our build folder
+            baseDir: buildDir,
+            index: "demo.html"
+        },
+        port: 5007
+    });
 }
 
 function clearBashScreen() {

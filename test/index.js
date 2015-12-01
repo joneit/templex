@@ -4,7 +4,7 @@
 
 require('should'); // extends Object with `should`
 
-var fmt = require('../src/js/templex.js');
+var fmt = require('../templex.js');
 
 describe('require() returns an object that', function() {
     it('is a function that', function() {

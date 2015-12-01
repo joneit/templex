@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 org="joneit"
 
 # set variable repo to current directory name (without path)
