@@ -10,6 +10,7 @@ Detailed API docs can be found [here](http://joneit.github.io/templex/index.html
 A demo can be found [here](http://joneit.github.io/templex/demo.html).
 
 To use in a browser, you have two options:
+
 1. Incorporate the node module into your own browserified project.
 2. Use the browserified versions [`templex.js`](http://joneit.github.io/templex/templex.js) or [`templex.min.js`](http://joneit.github.io/templex/templex.min.js) available on the Github pages CDN.
 
