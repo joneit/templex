@@ -1,0 +1,109 @@
+<html>
+<head>
+    <style>
+        input[type=text] {
+            background-color: ivory;
+            width: 50%;
+        }
+    </style>
+    <script src="templex.js"></script>
+    <script>
+        'use strict';
+
+        // make some globals
+        var r = 192;
+        var g = 150;
+        var b = 81;
+
+        function hex2(n) {
+            return (n + 256).toString(16).substr(1)
+        }
+
+        window.onload = function () {
+            var globalObject = typeof global !== 'undefined' ? global : window;
+            var buttons = document.querySelectorAll('input[type=button]');
+            var privateContext = [{ r: 223, b: 62 }, { ab: 1700, c: 'end' }];
+
+            buttons[0].onclick = function () {
+                var input = this.previousElementSibling;
+                var li = document.createElement('li');
+                li.innerHTML = templex(input.value);
+                document.getElementsByTagName('ul')[0].appendChild(li);
+            };
+
+            buttons[1].onclick = function () {
+                var input = this.previousElementSibling;
+                var li = document.createElement('li');
+                li.innerHTML = templex.call(privateContext[0], input.value);
+                document.getElementsByTagName('ul')[0].appendChild(li);
+            };
+
+            buttons[2].onclick = function () {
+                var input = this.previousElementSibling;
+                var li = document.createElement('li');
+                li.innerHTML = templex.call(privateContext, input.value);
+                document.getElementsByTagName('ul')[0].appendChild(li);
+            };
+
+            buttons[3].onclick = function () {
+                var input = this.previousElementSibling;
+                var li = document.createElement('li');
+                li.innerHTML = templex(input.value, 'ABC', 'DEF', 'GHI');
+                document.getElementsByTagName('ul')[0].appendChild(li);
+            };
+
+            buttons[4].onclick = function () {
+                var input = this.previousElementSibling;
+                var li = document.createElement('li');
+                li.innerHTML = templex.call(privateContext[0], input.value, 'ABC', 'DEF', 'GHI');
+                document.getElementsByTagName('ul')[0].appendChild(li);
+            };
+        };
+
+    </script>
+</head>
+<body>
+
+global context:
+<blockquote><pre>
+var r = 192;
+var g = 150;
+var b = 81;
+
+function hex2(n) {
+    return (n + 256).toString(16).substr(1)
+}
+</pre></blockquote>
+
+template:
+<input type="text" value="Testing with ({r}, {g}, {b}) = #{hex2(r)}{hex2(g)}{hex2(b)}; and {c} = {ab} with ({1}, {2}, {3})"/>
+<input type="button" value="Format with global context">
+<br>
+<br>
+
+template:
+<input type="text" value="Testing with ({r}, {g}, {b}) = #{hex2(r)}{hex2(g)}{hex2(b)}; and {c} = {ab} with ({1}, {2}, {3})"/>
+<input type="button" value="Format with { r: 223, b: 62 } as context + global context">
+<br>
+<br>
+
+template:
+<input type="text" value="Testing with ({r}, {g}, {b}) = #{hex2(r)}{hex2(g)}{hex2(b)}; and {c} = {ab} with ({1}, {2}, {3})"/>
+<input type="button" value="Format with [{ r: 223, b: 62 }, { ab: 1700, c: 'end' }] as context + global context">
+<br>
+<br>
+
+template:
+<input type="text" value="Testing with ({r}, {g}, {b}) = #{hex2(r)}{hex2(g)}{hex2(b)}; and {c} = {ab} with ({1}, {2}, {3})"/>
+<input type="button" value="Format with actual params (&hellip;, 'ABC', 'DEF', 'GHI') + global context">
+<br>
+<br>
+
+template:
+<input type="text" value="Testing with ({r}, {g}, {b}) = #{hex2(r)}{hex2(g)}{hex2(b)}; and {c} = {ab} with ({1}, {2}, {3})"/>
+<input type="button" value="Format with actual params (&hellip;, 'ABC', 'DEF', 'GHI') + { r: 223, b: 62 } + global context">
+<br>
+
+<ul></ul>
+</body>
+</html>
